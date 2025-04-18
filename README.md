@@ -14,7 +14,7 @@ and resource management.
 ## Features
 
 - Type-safe using Go generics
-- Simple API: `Publish`, `Subscribe`
+- Simple API: `Send`, `Subscribe`
 - Context-based cancellation
 - Graceful shutdown of subscribers
 - Fully tested with unit tests
