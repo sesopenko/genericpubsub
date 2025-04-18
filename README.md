@@ -48,7 +48,7 @@ func main() {
     
     msg, ok := <-sub
     fmt.Println("Received:", msg.Value)
-	fmt.Printf("channel wasn't closed: %t\n", ok)
+    fmt.Printf("channel wasn't closed: %t\n", ok)
 }
 
 ```
