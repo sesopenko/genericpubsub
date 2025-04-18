@@ -58,11 +58,14 @@ func (ps *PubSub[T]) start() {
 
 }
 
-// Register provides a channel which the main PubSub will send values to
-// Accepts a cancellation context for when the subscriber needs to close its connection.
+// Subscribe provides a channel which the main PubSub will send values to.
+// callerCtx is used to signal a cancellation of the single subscription, such as when a
+// websocket is closed and the subscription for the websocket needs to be also closed.
+// The bufferSize needs to be large enough to not cause performance issues under high load.
 // Returns a channel the registered receiver receives values from
-// The channel will be closed when messages are no longer going to be sent.
-func (ps *PubSub[T]) Register(callerCtx context.Context, bufferSize int) chan T {
+// The channel will be closed when messages are no longer going to be sent, such as when
+// the PubSub itself is closed or this registered subscription is cancelled.
+func (ps *PubSub[T]) Subscribe(callerCtx context.Context, bufferSize int) chan T {
 	id := getNextSubId()
 	recv := make(chan T, bufferSize)
 	go func() {

@@ -2,6 +2,7 @@ package genericpubsub
 
 import (
 	"context"
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"log"
 	"testing"
@@ -23,7 +24,7 @@ func TestPubSub_RegisterShouldNotifySub(t *testing.T) {
 		Value: "hello",
 	}
 	ps := New[message](context.TODO(), testBufferSize)
-	events := ps.Register(context.TODO(), testBufferSize)
+	events := ps.Subscribe(context.TODO(), testBufferSize)
 
 	// Act
 	go func() {
@@ -67,7 +68,7 @@ func TestPubSub_RegisterShouldNotifyLateSubscriber(t *testing.T) {
 		Value: "second",
 	}
 	ps := New[message](context.TODO(), testBufferSize)
-	firstEvents := ps.Register(context.TODO(), testBufferSize)
+	firstEvents := ps.Subscribe(context.TODO(), testBufferSize)
 
 	// Send first message
 	ps.Send(firstInput)
@@ -80,7 +81,7 @@ func TestPubSub_RegisterShouldNotifyLateSubscriber(t *testing.T) {
 	}
 
 	time.Sleep(100 * time.Millisecond)
-	secondEvents := ps.Register(context.TODO(), testBufferSize)
+	secondEvents := ps.Subscribe(context.TODO(), testBufferSize)
 
 	secondDone := make(chan bool)
 	go func() {
@@ -134,7 +135,7 @@ func TestPubSub_RegisterShouldNotNotifyCancelledSub(t *testing.T) {
 	cancellableCtx, cancel := context.WithCancel(context.Background())
 	ps := New[message](context.TODO(), testBufferSize)
 	cancel()
-	events := ps.Register(cancellableCtx, testBufferSize)
+	events := ps.Subscribe(cancellableCtx, testBufferSize)
 	go func() {
 		time.Sleep(100 * time.Millisecond)
 		ps.Send(input)
@@ -163,7 +164,7 @@ func TestPubSub_RegisterShouldNotNotifyCancelledSystem(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	ps := New[message](ctx, testBufferSize)
 	cancel()
-	events := ps.Register(context.TODO(), testBufferSize)
+	events := ps.Subscribe(context.TODO(), testBufferSize)
 	go func() {
 		time.Sleep(100 * time.Millisecond)
 		ps.Send(input)
@@ -180,4 +181,65 @@ func TestPubSub_RegisterShouldNotNotifyCancelledSystem(t *testing.T) {
 		// happens.
 		break
 	}
+}
+
+func ExampleNew() {
+	type Message struct {
+		Value string
+	}
+
+	ctx := context.Background()
+	ps := New[Message](ctx, 10)
+
+	sub := ps.Subscribe(context.TODO(), 10)
+	ps.Send(Message{Value: "Hello"})
+
+	msg, ok := <-sub
+	fmt.Println(msg.Value)
+	fmt.Printf("channel wasn't closed: %t\n", ok)
+
+	// Output:
+	// Hello
+	// channel wasn't closed: true
+
+}
+
+func ExamplePubSub_Send() {
+	type Message struct {
+		Value string
+	}
+
+	ctx := context.Background()
+	ps := New[Message](ctx, 10)
+
+	sub := ps.Subscribe(context.TODO(), 10)
+	ps.Send(Message{Value: "Hello"})
+
+	msg, ok := <-sub
+	fmt.Println(msg.Value)
+	fmt.Printf("channel wasn't closed: %t\n", ok)
+
+	// Output:
+	// Hello
+	// channel wasn't closed: true
+}
+
+func ExamplePubSub_Subscribe() {
+	type Message struct {
+		Value string
+	}
+
+	ctx := context.Background()
+	ps := New[Message](ctx, 10)
+
+	sub := ps.Subscribe(context.TODO(), 10)
+	ps.Send(Message{Value: "Hello"})
+
+	msg, ok := <-sub
+	fmt.Println(msg.Value)
+	fmt.Printf("channel wasn't closed: %t\n", ok)
+
+	// Output:
+	// Hello
+	// channel wasn't closed: true
 }
