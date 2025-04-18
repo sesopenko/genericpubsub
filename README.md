@@ -1,6 +1,10 @@
 # genericpubsub
 
 [![Go Tests](https://github.com/sesopenko/genericpubsub/actions/workflows/test.yml/badge.svg)](https://github.com/sesopenko/genericpubsub/actions/workflows/test.yml)
+[![GitHub tag](https://img.shields.io/github/v/tag/sesopenko/genericpubsub?label=version)](https://github.com/sesopenko/genericpubsub/tags)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
+[![Go Version](https://img.shields.io/badge/go-1.24+-blue)](https://golang.org/doc/go1.24)
+
 
 `genericpubsub` is a lightweight, type-safe publish/subscribe system for Go, using generics and context-based
 cancellation. It allows you to publish messages of any type to multiple subscribers concurrently, with clean shutdown
@@ -19,7 +23,6 @@ and resource management.
 ```bash
 go get github.com/sesopenko/genericpubsub
 ````
-
 
 ## Example
 
