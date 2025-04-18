@@ -1,6 +1,7 @@
 # genericpubsub
 
 [![Go Tests](https://github.com/sesopenko/genericpubsub/actions/workflows/test.yml/badge.svg)](https://github.com/sesopenko/genericpubsub/actions/workflows/test.yml)
+[![Go Reference](https://pkg.go.dev/badge/github.com/sesopenko/genericpubsub.svg)](https://pkg.go.dev/github.com/sesopenko/genericpubsub)
 [![GitHub tag](https://img.shields.io/github/v/tag/sesopenko/genericpubsub?label=version)](https://github.com/sesopenko/genericpubsub/tags)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
 [![Go Version](https://img.shields.io/badge/go-1.24+-blue)](https://golang.org/doc/go1.24)
@@ -23,6 +24,10 @@ and resource management.
 ```bash
 go get github.com/sesopenko/genericpubsub
 ````
+
+## Documentation
+
+https://pkg.go.dev/github.com/sesopenko/genericpubsub
 
 ## Example
 
