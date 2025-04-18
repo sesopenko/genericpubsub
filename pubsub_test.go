@@ -194,6 +194,7 @@ func ExampleNew() {
 	sub := ps.Subscribe(context.TODO(), 10)
 	ps.Send(Message{Value: "Hello"})
 
+	time.Sleep(50 * time.Millisecond)
 	msg, ok := <-sub
 	fmt.Println(msg.Value)
 	fmt.Printf("channel wasn't closed: %t\n", ok)
@@ -215,6 +216,7 @@ func ExamplePubSub_Send() {
 	sub := ps.Subscribe(context.TODO(), 10)
 	ps.Send(Message{Value: "Hello"})
 
+	time.Sleep(50 * time.Millisecond)
 	msg, ok := <-sub
 	fmt.Println(msg.Value)
 	fmt.Printf("channel wasn't closed: %t\n", ok)
@@ -235,6 +237,7 @@ func ExamplePubSub_Subscribe() {
 	sub := ps.Subscribe(context.TODO(), 10)
 	ps.Send(Message{Value: "Hello"})
 
+	time.Sleep(50 * time.Millisecond)
 	msg, ok := <-sub
 	fmt.Println(msg.Value)
 	fmt.Printf("channel wasn't closed: %t\n", ok)

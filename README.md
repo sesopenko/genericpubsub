@@ -37,6 +37,7 @@ package main
 import (
     "context"
     "fmt"
+	"time"
     "github.com/sesopenko/genericpubsub"
 )
 
@@ -50,7 +51,7 @@ func main() {
     sub := ps.Subscribe(context.TODO(), channelBuffer)
     
     go ps.Send(Message{Value: "hello"})
-    
+    time.Sleep(50 * time.Millisecond)
     msg, ok := <-sub
     fmt.Println("Received:", msg.Value)
     fmt.Printf("channel wasn't closed: %t\n", ok)
